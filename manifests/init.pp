@@ -17,7 +17,7 @@
 #
 class avamar (
   $class_enabled     = true,
-  $package_name      = "AvamarClient",
+  $package_name      = 'AvamarClient',
   $admin_server      = 'ben061012.example.com',
   $server_domain     = 'ben1253',
 ) {
@@ -26,9 +26,9 @@ class avamar (
 
     # Check if Class is disabled (Helps to disable some hosts)
     if $class_enabled == true {
-      package { "AvamarClient":
+      package { 'AvamarClient':
         ensure => installed,
-        name => "${package_name}"
+        name   => $package_name
       }
       $command_string = "/usr/local/avamar/etc/avagent.d register ${admin_server} ${server_domain}"
       exec { 'AVRegister':
