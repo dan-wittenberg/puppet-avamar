@@ -1,0 +1,8 @@
+fixtures:
+    forge_modules:
+        stdlib:
+            # Lock at 4.13.0 for Puppet 3
+            repo: 'puppetlabs/stdlib'
+            ref: '4.13.0'
+    symlinks:
+        avamar: "#{source_dir}"
