@@ -1,43 +1,64 @@
 {
-  "author": "Eric B",
-  "source": "https://github.com/Ramorous/puppet-avamar",
-  "summary": "Allows configuration of Avamar on target host",
-  "dependencies": [],
-  "license": "Apache-2.0",
-  "name": "Ramorous-avamar",
-  "version": "0.1.1",
-  "operatingsystem_support": [
-    {
-      "operatingsystem": "RedHat",
-      "operatingsystemrelease": ["5","6","7"]
-    },
-    {
-      "operatingsystem": "CentOS",
-      "operatingsystemrelease": ["5","6","7"]
-    },
-    {
-      "operatingsystem": "OracleLinux",
-      "operatingsystemrelease": ["5","6","7"]
-    },
-    {
-      "operatingsystem": "SLES",
-      "operatingsystemrelease": [
-        "10",
-        "10 SP1",
-        "10 SP2",
-        "10 SP3",
-        "10 SP4",
-        "11",
-        "11 SP1",
-        "11 SP2",
-        "11 SP3",
-        "11 SP4",
-        "12"
-      ]
-    }
-  ],
-  "project_page": "https://github.com/Ramorous/puppet-avamar",
-  "issues_url": "https://github.com/Ramorous/puppet-avamar/issues",
-  "requirements": [],
-  "tags": []
+    "author": "Eric B",
+    "source": "https://github.com/Ramorous/puppet-avamar",
+    "summary": "Allows configuration of Avamar on target host",
+    "license": "Apache-2.0",
+    "project_page": "https://github.com/Ramorous/puppet-avamar",
+    "issues_url": "https://github.com/Ramorous/puppet-avamar/issues",
+    "name": "Ramorous-avamar",
+    "version": "0.2.0",
+    "operatingsystem_support": [
+        {
+            "operatingsystem": "RedHat",
+            "operatingsystemrelease": [
+                "5",
+                "6",
+                "7"
+            ]
+        },
+        {
+            "operatingsystem": "CentOS",
+            "operatingsystemrelease": [
+                "5",
+                "6",
+                "7"
+            ]
+        },
+        {
+            "operatingsystem": "OracleLinux",
+            "operatingsystemrelease": [
+                "5",
+                "6",
+                "7"
+            ]
+        },
+        {
+            "operatingsystem": "SLES",
+            "operatingsystemrelease": [
+                "10",
+                "10 SP1",
+                "10 SP2",
+                "10 SP3",
+                "10 SP4",
+                "11",
+                "11 SP1",
+                "11 SP2",
+                "11 SP3",
+                "11 SP4",
+                "12"
+            ]
+        }
+    ],
+    "dependencies": [
+        {
+            "name":"puppetlabs-stdlib",
+            "version_requirement":">= 4.0.0 < 4.13.0"
+        }
+    ],
+    "requirements": [
+        {
+            "name": "puppet",
+            "version_requirement": ">=3.0.0 < 5.0.0"
+        }
+    ]
 }
