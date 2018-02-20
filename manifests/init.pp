@@ -95,61 +95,19 @@ class avamar (
     fail('server_domain is required.')
   }
 
-  $avamar_path = '/usr/local/avamar'
-  $register_cmd = "${avamar_path}/etc/avagent.d register ${admin_server} ${server_domain}"
-
-  # Verify if target host is Linux
-  if $facts['kernel'] == 'Linux' {
-
-    # Check if Class is disabled (Helps to disable some hosts)
-    if $class_enabled == true {
-      if $manage_package {
-        package { 'AvamarClient':
-          ensure => $package_ensure,
-          name   => $package_name,
-        }
-
-        package { 'AvamarRMAN':
-          ensure => $rman_package_ensure,
-          name   => $rman_package_name,
-        }
-
-        $reg_req = Package['AvamarClient']
-        $svc_sub = Package['AvamarClient']
-      } else {
-        $reg_req = undef
-        $svc_sub = undef
+  if $avamar::class_enabled == true {
+    case $facts['kernel'] {
+      'Linux': {
+        include ::avamar::linux
       }
-
-      if $manage_register {
-        # The onlyif test here does a check using the status
-        # function.  It will return 0 if "activated" is found, *and*
-        # the current name of the admin server is the same as is
-        # specified to the class.  This catches both the case where
-        # a machine hasn't been registered yet, or one that was
-        # previously registered to another MCS and needs to be
-        # re-registered with the newly specified one.
-        exec { 'AVRegister':
-          command => $register_cmd,
-          user    => 'root',
-          unless  => "${avamar_path}/etc/avagent.d status | grep 'activated' | grep '${admin_server}'",
-          path    => ['/usr/bin', '/sbin', '/bin', '/usr/sbin'],
-          require => $reg_req,
-        }
+      'windows': {
+        include ::avamar::windows
       }
-
-      if $manage_service {
-        service { 'AvamarService':
-          ensure    => $service_ensure,
-          enable    => $service_enable,
-          name      => $service_name,
-          subscribe => $svc_sub,
-        }
+      default : {
+        fail("The OS ${facts['kernel']} is not supported by the module ${module_name}")
       }
-    } else {
-      notice('Class disabled.')
     }
   } else {
-    fail("Kernel ${facts['kernel']} not supported.")
+    notice('Class disabled.')
   }
 }
