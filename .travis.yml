@@ -1,26 +1,44 @@
 ---
-language: ruby
 sudo: false
-cache:
-  bundler: true
-  directories:
-    - $TRAVIS_BUILD_DIR/spec/fixtures/modules
-before_install: rm Gemfile.lock || true
-install:
-  - bundle install --without development system_tests --path=${BUNDLE_PATH:-vendor/bundle}
-  - bundle exec rake spec_prep
-script: bundle exec rake test
-branches:
-  only:
-  - master
+dist: trusty
+language: ruby
+cache: bundler
+before_install:
+  - bundle -v
+  - rm Gemfile.lock || true
+  - gem update --system
+  - gem update bundler
+  - gem --version
+  - bundle -v
+script:
+  - 'bundle exec rake $CHECK'
+bundler_args: --without system_tests
+rvm:
+  - 2.4.1
+  - 2.1.9
+env:
+  - PUPPET_GEM_VERSION="~> 4.0" CHECK=spec
 matrix:
   fast_finish: true
   include:
-  - rvm: 2.1.9
-    env: PUPPET_GEM_VERSION="~> 4.0" STRICT_VARIABLES="yes"
-  - rvm: 2.0
-    env: PUPPET_GEM_VERSION="~> 3.0" FUTURE_PARSER="yes"
-  - rvm: 2.0
-    env: PUPPET_GEM_VERSION="~> 3.0"
-  - rvm: 2.2
-    env: PUPPET_GEM_VERSION="~> 4.0" STRICT_VARIABLES="yes"
+    -
+      env: CHECK=rubocop
+    -
+      env: CHECK="syntax lint"
+    -
+      env: CHECK=metadata_lint
+branches:
+  only:
+    - master
+    - /^v\d/
+notifications:
+  email: false
+deploy:
+  provider: puppetforge
+  user: puppet
+  password:
+    secure: ""
+  on:
+    tags: true
+    all_branches: true
+    condition: "$DEPLOY_TO_FORGE = yes"
